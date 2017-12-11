@@ -36,11 +36,6 @@
     </build>
 
     <dependencies>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>1.2.3</version>
-        </dependency>
         <!--helpers-->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -52,6 +47,17 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>2.6</version>
+            </dependency>
+            <!--logging-->
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>1.2.3</version>
+            </dependency>
             <!--tests-->
             <dependency>
                 <groupId>org.junit.platform</groupId>
