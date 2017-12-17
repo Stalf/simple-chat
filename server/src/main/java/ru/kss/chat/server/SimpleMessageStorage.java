@@ -45,4 +45,9 @@ public class SimpleMessageStorage implements Storage {
     public BlockingQueue<Message> pendingMessageQueue() {
         return pendingMessagesQueue;
     }
+
+    @Override
+    public int getMessageCount() {
+        return queue.size();
+    }
 }

@@ -10,4 +10,9 @@ public interface ServiceProvider {
      */
     int getUserCount();
 
+    /**
+     * @return total messages in server storage
+     */
+    int getMessageCount();
+
 }

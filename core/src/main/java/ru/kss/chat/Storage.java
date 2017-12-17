@@ -29,4 +29,9 @@ public interface Storage {
      */
     BlockingQueue<Message> pendingMessageQueue();
 
+    /**
+     * @return total messages in server storage
+     */
+    int getMessageCount();
+
 }

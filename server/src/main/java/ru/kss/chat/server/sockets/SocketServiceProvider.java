@@ -17,4 +17,9 @@ public class SocketServiceProvider implements ServiceProvider {
     public int getUserCount() {
         return this.connectionPool.getConnections().size();
     }
+
+    @Override
+    public int getMessageCount() {
+        return this.connectionPool.storage().getMessageCount();
+    }
 }

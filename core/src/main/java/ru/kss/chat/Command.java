@@ -30,9 +30,13 @@ public enum Command {
      */
     TXT,
     /**
-     * Remote procedure call
+     * Request user count
      */
-    RPC,
+    USER_COUNT,
+    /**
+     * Request message count
+     */
+    MESSAGE_COUNT,
     /**
      * Goodbye message
      */

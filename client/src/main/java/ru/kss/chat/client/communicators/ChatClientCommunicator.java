@@ -43,8 +43,11 @@ public class ChatClientCommunicator extends ClientCommunicator {
                 ChatCommand chatCommand = ChatCommand.parse(text);
 
                 switch (chatCommand) {
-                    case COUNT: {
-                        return this.update(Command.RPC, chatCommand.name());
+                    case USER_COUNT: {
+                        return this.update(Command.USER_COUNT, "");
+                    }
+                    case MESSAGE_COUNT: {
+                        return this.update(Command.MESSAGE_COUNT, "");
                     }
                     case MESSAGE: {
                         return this.update(Command.TXT, text);

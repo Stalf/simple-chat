@@ -26,8 +26,11 @@ public class ChatServerCommunicator extends ServerCommunicator {
         String text = message.getText();
 
         switch (command) {
-            case RPC: {
+            case USER_COUNT: {
                 return this.update(new ServerTextMessage("Current user count: " + handler.connectionPool().provider().getUserCount()));
+            }
+            case MESSAGE_COUNT: {
+                return this.update(new ServerTextMessage("Current message count: " + handler.connectionPool().provider().getMessageCount()));
             }
             case TXT: {
                 handler.broadcast(text);
