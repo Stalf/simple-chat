@@ -9,6 +9,7 @@ import java.util.Arrays;
 public enum ChatCommand {
 
     HELP("/help", "show this page"),
+    COUNT("/count", "get client count"),
     QUIT("/q", "exit chat"),
     MESSAGE(null, "send message");
 

@@ -2,6 +2,8 @@ package ru.kss.chat.server.sockets;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
+import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import ru.kss.chat.*;
 import ru.kss.chat.messages.Message;
@@ -22,15 +24,19 @@ import static ru.kss.chat.Utils.DEFAULT_PORT_NUMBER;
 @Slf4j
 public class SocketConnectionPool implements ConnectionPool {
 
+    private final Storage chatStorage = new SimpleMessageStorage();
     /**
      * Client connections map with client username as a key
      */
-    private static final Map<String, Handler> connections = Maps.newConcurrentMap();
-    private static final Storage chatStorage = new SimpleMessageStorage();
+    @Getter(AccessLevel.PROTECTED)
+    private final Map<String, Handler> connections = Maps.newConcurrentMap();
     private Map<Broadcaster, Thread> broadcasterThreads = Maps.newHashMap();
     private Map<Handler, Thread> handlerThreads = Maps.newHashMap();
+
     private Thread connectionListener;
     private Thread messagesBroadcaster;
+
+    private ServiceProvider serviceProvider;
 
     public ConnectionPool start(Map<String, String> config) {
         Objects.requireNonNull(config);
@@ -88,6 +94,8 @@ public class SocketConnectionPool implements ConnectionPool {
         });
         messagesBroadcaster.start();
 
+        this.register(new SocketServiceProvider(this));
+
         return this;
     }
 
@@ -131,9 +139,19 @@ public class SocketConnectionPool implements ConnectionPool {
         return chatStorage;
     }
 
+    @Override
+    public ServiceProvider provider() {
+        return this.serviceProvider;
+    }
+
     public void register(Handler handler) {
         log.debug("Register client {} in pool", handler.getUsername());
         connections.put(handler.getUsername(), handler);
+    }
+
+    @Override
+    public void register(ServiceProvider provider) {
+        this.serviceProvider = provider;
     }
 
     @Override

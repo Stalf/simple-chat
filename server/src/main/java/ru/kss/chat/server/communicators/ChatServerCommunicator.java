@@ -5,6 +5,7 @@ import ru.kss.chat.Command;
 import ru.kss.chat.communicators.Communicator;
 import ru.kss.chat.Handler;
 import ru.kss.chat.messages.Message;
+import ru.kss.chat.server.messages.ServerTextMessage;
 
 /**
  * Communicator implementing main chat behavior for server side
@@ -25,6 +26,9 @@ public class ChatServerCommunicator extends ServerCommunicator {
         String text = message.getText();
 
         switch (command) {
+            case RPC: {
+                return this.update(new ServerTextMessage("Current user count: " + handler.connectionPool().provider().getUserCount()));
+            }
             case TXT: {
                 handler.broadcast(text);
                 return this.update(Command.ACK, "");

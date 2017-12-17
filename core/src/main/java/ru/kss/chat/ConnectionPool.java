@@ -30,6 +30,12 @@ public interface ConnectionPool {
     void register(Handler handler);
 
     /**
+     * Registers client {@code ServiceProvider} instance in the pool
+     * @param provider client services provider
+     */
+    void register(ServiceProvider provider);
+
+    /**
      * Remove client handler from pool on exit or connection loss
      * @param handler client handler
      */
@@ -47,6 +53,11 @@ public interface ConnectionPool {
      * @return {@code Storage} instance responsible for holding tias pool`s messages
      */
     Storage storage();
+
+    /**
+     * @return {@code ServiceProvider} instance responsible for executing client requests
+     */
+    ServiceProvider provider();
 
     /**
      * Look through the registered clients for username
