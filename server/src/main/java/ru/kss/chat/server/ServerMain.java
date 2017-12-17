@@ -1,38 +1,32 @@
 package ru.kss.chat.server;
 
+import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
-import ru.kss.chat.Config;
+import ru.kss.chat.ConnectionPool;
 import ru.kss.chat.Utils;
+import ru.kss.chat.server.sockets.SocketConnectionPool;
 
-import java.io.*;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.util.Map;
 
+/**
+ * Simple Chat Server main class
+ */
 @Slf4j
 public class ServerMain {
 
-    public static void main(String... args) throws IOException {
+    public static void main(String... args) {
+        log.info("Default port number is {}. If you need the server to listen to another port number - provide it as the first command line argument",
+            Utils.DEFAULT_PORT_NUMBER);
         log.info("Starting Chat server...");
 
-        try (ServerSocket serverSocket = new ServerSocket(Config.PORT_NUMBER)) {
-            log.info("Server started and listening to port {}", serverSocket.getLocalPort());
-            try (
-                Socket serviceSocket = serverSocket.accept();
-                BufferedReader ir = new BufferedReader(new InputStreamReader(serviceSocket.getInputStream()));
-                DataOutputStream os = new DataOutputStream(serviceSocket.getOutputStream())) {
-
-                log.info("Established socket connection with {}", serviceSocket.getInetAddress());
-
-                String line;
-                while (true) {
-                    line = ir.readLine();
-                    log.info("Got text from user: {}", line);
-                }
-
-            } catch (IOException e) {
-                log.error("Socket error", e);
-            }
+        Map<String, String> poolConfig = Maps.newHashMap();
+        if (args.length >= 1) {
+            poolConfig.put("portNumber", args[0]);
         }
+
+        ConnectionPool connectionPool = new SocketConnectionPool().start(poolConfig);
+        //Broadcaster timestampBroadcaster = connectionPool.register(new TimestampBroadcaster(TimeUnit.MINUTES.toSeconds(1)));
+
     }
 
 }

@@ -19,11 +19,6 @@
             <artifactId>core</artifactId>
             <version>1.0</version>
         </dependency>
-
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-        </dependency>
     </dependencies>
 
     <build>
@@ -35,6 +30,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.1.0</version>
                 <configuration>
                     <finalName>${project.artifactId}-${pom.version}</finalName>
                     <appendAssemblyId>false</appendAssemblyId>

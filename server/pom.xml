@@ -11,6 +11,7 @@
 
     <artifactId>server</artifactId>
     <packaging>jar</packaging>
+    <version>1.0</version>
 
     <name>Chat Server</name>
     <description>Server side module of Simple Chat application</description>
@@ -20,6 +21,10 @@
             <groupId>ru.kss</groupId>
             <artifactId>core</artifactId>
             <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
@@ -36,6 +41,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.1.0</version>
                 <configuration>
                     <finalName>${project.artifactId}-${pom.version}</finalName>
                     <appendAssemblyId>false</appendAssemblyId>

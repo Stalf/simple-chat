@@ -11,8 +11,15 @@
 
     <artifactId>core</artifactId>
     <packaging>jar</packaging>
-    
+
     <name>Core module</name>
     <description>Simple Chat common classes and Utils</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>
