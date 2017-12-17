@@ -14,7 +14,7 @@ import static ru.kss.chat.client.ConsolePrinter.println;
  */
 public abstract class ClientCommunicator extends AbstractCommunicator {
 
-    protected boolean awaitingUserInput;
+    protected volatile boolean awaitingUserInput;
 
     public ClientCommunicator(Handler handler) {
         super(handler);

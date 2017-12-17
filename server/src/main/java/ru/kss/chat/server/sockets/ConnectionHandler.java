@@ -1,5 +1,6 @@
 package ru.kss.chat.server.sockets;
 
+import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
 import ru.kss.chat.AbstractHandler;
 import ru.kss.chat.ConnectionPool;
@@ -38,6 +39,9 @@ public class ConnectionHandler extends AbstractHandler implements Handler {
     }
 
     public void setUsername(String username) {
+        if (Strings.isNullOrEmpty(username)){
+            throw new IllegalArgumentException("Username should not be empty");
+        }
         if (pool.checkUsernameExists(username)) {
             throw new IllegalArgumentException("Username should be unique");
         }

@@ -6,6 +6,7 @@ import ru.kss.chat.Storage;
 import ru.kss.chat.messages.Message;
 
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentLinkedDeque;
@@ -20,12 +21,12 @@ public class SimpleMessageStorage implements Storage {
 
     @Override
     public Queue<Message> getLastMessages(int count) {
-        Queue<Message> result = Lists.newLinkedList();
+        LinkedList<Message> result = Lists.newLinkedList();
 
-        Iterator<Message> iterator = queue.iterator();
+        Iterator<Message> iterator = queue.descendingIterator();
         int i = 0;
         while (iterator.hasNext() && (i++ < count)) {
-            result.add(iterator.next());
+            result.addFirst(iterator.next());
         }
         return result;
     }

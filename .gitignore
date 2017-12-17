@@ -89,3 +89,4 @@ hs_err_pid*
 #custom
 *.iml
 /.idea/
+!/stress-test/*.jar

@@ -13,7 +13,7 @@ public interface Storage {
     /**
      * Method for getting messages from storage
      * @param count number of the requested messages
-     * @return last {@code count} messages
+     * @return last {@code count} messages in a Queue. Most recent are last
      */
     Queue<Message> getLastMessages(int count);
     /**
