@@ -3,7 +3,7 @@ package ru.kss.chat.client.sockets;
 import lombok.Getter;
 import lombok.Setter;
 import ru.kss.chat.AbstractHandler;
-import ru.kss.chat.ConnectionPool;
+import ru.kss.chat.ChatService;
 import ru.kss.chat.Handler;
 import ru.kss.chat.client.communicators.ClientCommunicator;
 import ru.kss.chat.client.communicators.WelcomeClientCommunicator;
@@ -91,7 +91,7 @@ public class ClientHandler extends AbstractHandler implements Handler {
     }
 
     @Override
-    public ConnectionPool connectionPool() {
+    public ChatService chatService() {
         return null;
     }
 

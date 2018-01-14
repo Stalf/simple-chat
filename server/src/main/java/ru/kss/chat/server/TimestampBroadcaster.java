@@ -2,7 +2,7 @@ package ru.kss.chat.server;
 
 import lombok.extern.slf4j.Slf4j;
 import ru.kss.chat.Broadcaster;
-import ru.kss.chat.ConnectionPool;
+import ru.kss.chat.ChatService;
 import ru.kss.chat.server.messages.ServerTextMessage;
 
 import java.time.LocalDateTime;
@@ -21,7 +21,7 @@ public class TimestampBroadcaster implements Broadcaster {
      * Time value to wait between message broadcasting (in milliseconds)
      */
     private final long sleepPeriod;
-    private ConnectionPool pool;
+    private ChatService service;
 
     /**
      * Creates TimestampBroadcaster
@@ -37,7 +37,7 @@ public class TimestampBroadcaster implements Broadcaster {
         try {
             log.info("TimestampBroadcaster started");
             while (!Thread.currentThread().isInterrupted()) {
-                pool.broadcast(new ServerTextMessage("Current server local time: " + LocalDateTime.now().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM))));
+                service.broadcast(new ServerTextMessage("Current server local time: " + LocalDateTime.now().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM))));
 
                 try {
                     sleep(this.sleepPeriod);
@@ -52,7 +52,7 @@ public class TimestampBroadcaster implements Broadcaster {
     }
 
     @Override
-    public void subscribe(ConnectionPool pool) {
-        this.pool = pool;
+    public void subscribe(ChatService service) {
+        this.service = service;
     }
 }

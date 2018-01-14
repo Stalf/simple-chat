@@ -38,6 +38,7 @@ public interface Handler extends Runnable{
      * @return parsed {@code Message} object
      */
     Message parse(String input);
+
     /**
      * Composes string from provided {@code Message} instance. Serialization implementation depends on Handler transport layer
      * @param message {@code Message} object prepared for sending
@@ -46,11 +47,11 @@ public interface Handler extends Runnable{
     String compose(Message message);
 
     /**
-     * Returns linked {@code ConnectionPool}.
+     * Returns linked {@code ChatService}.
      * It is necessary to get global data such as user count or messages history
      *
      * In production environment we`ll have to build the System Event Bus instead of such weird methods.
      */
-    ConnectionPool connectionPool();
+    ChatService chatService();
 
 }

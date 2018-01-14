@@ -3,7 +3,7 @@ package ru.kss.chat.server.sockets;
 import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
 import ru.kss.chat.AbstractHandler;
-import ru.kss.chat.ConnectionPool;
+import ru.kss.chat.ChatService;
 import ru.kss.chat.Handler;
 import ru.kss.chat.communicators.Communicator;
 import ru.kss.chat.messages.Message;
@@ -28,13 +28,13 @@ import static ru.kss.chat.Utils.parseMessage;
 public class ConnectionHandler extends AbstractHandler implements Handler {
 
     private Socket socket;
-    private ConnectionPool pool;
+    private ChatService chatService;
     private PrintWriter writer;
     private String username;
 
-    public ConnectionHandler(Socket socket, ConnectionPool pool) {
+    public ConnectionHandler(Socket socket, ChatService chatService) {
         this.socket = socket;
-        this.pool = pool;
+        this.chatService = chatService;
         log.debug("Established socket connection with a client at {}, threadID {}", socket.getInetAddress(), this.getUsername());
     }
 
@@ -42,12 +42,12 @@ public class ConnectionHandler extends AbstractHandler implements Handler {
         if (Strings.isNullOrEmpty(username)){
             throw new IllegalArgumentException("Username should not be empty");
         }
-        if (pool.checkUsernameExists(username)) {
+        if (chatService.checkUsernameExists(username)) {
             throw new IllegalArgumentException("Username should be unique");
         }
         log.debug("New client name: {}", username);
         this.username = username;
-        pool.register(this);
+        chatService.register(this);
     }
 
     public String getUsername() {
@@ -64,7 +64,7 @@ public class ConnectionHandler extends AbstractHandler implements Handler {
 
     @Override
     public void broadcast(String text) {
-        pool.broadcast(new TextMessage(text, this.getUsername()));
+        chatService.broadcast(new TextMessage(text, this.getUsername()));
     }
 
     @Override
@@ -78,8 +78,8 @@ public class ConnectionHandler extends AbstractHandler implements Handler {
     }
 
     @Override
-    public ConnectionPool connectionPool() {
-        return this.pool;
+    public ChatService chatService() {
+        return this.chatService;
     }
 
     @Override
@@ -104,7 +104,7 @@ public class ConnectionHandler extends AbstractHandler implements Handler {
             log.error("Socket error", e);
         } finally {
             this.writer = null;
-            pool.unRegisterClient(this);
+            chatService.unRegister(this);
         }
     }
 

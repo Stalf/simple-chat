@@ -14,7 +14,7 @@ public class HistoryServerCommunicator extends ServerCommunicator {
 
     public HistoryServerCommunicator(Handler handler) {
         super(handler);
-        lastMessages = handler.connectionPool().storage().getLastMessages(HISTORY_DEPTH);
+        lastMessages = handler.chatService().storage().getLastMessages(HISTORY_DEPTH);
         this.update(Command.PING, "");
     }
 

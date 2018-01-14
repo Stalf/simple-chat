@@ -27,10 +27,10 @@ public class ChatServerCommunicator extends ServerCommunicator {
 
         switch (command) {
             case USER_COUNT: {
-                return this.update(new ServerTextMessage("Current user count: " + handler.connectionPool().provider().getUserCount()));
+                return this.update(new ServerTextMessage("Current user count: " + handler.chatService().getUserCount()));
             }
             case MESSAGE_COUNT: {
-                return this.update(new ServerTextMessage("Current message count: " + handler.connectionPool().provider().getMessageCount()));
+                return this.update(new ServerTextMessage("Current message count: " + handler.chatService().getMessageCount()));
             }
             case TXT: {
                 handler.broadcast(text);
