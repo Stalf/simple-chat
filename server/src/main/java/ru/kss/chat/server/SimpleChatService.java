@@ -23,8 +23,6 @@ public class SimpleChatService implements ChatService {
     private final ConnectionPool connectionPool;
     private final Integer portNumber;
 
-    private Thread messagesBroadcasterThread;
-
     /**
      * Map for holding {@code Thread} instances running Broadcasters
      */
@@ -41,6 +39,8 @@ public class SimpleChatService implements ChatService {
         this.messageStorage = messageStorage;
         this.connectionPool = connectionPool;
         this.portNumber = portNumber;
+
+        register(new PendingMessagesBroadcaster());
     }
 
     @Override
@@ -59,29 +59,41 @@ public class SimpleChatService implements ChatService {
                 innerBroadcast(new ServerCommandMessage(Command.FIN, "Server is stopping... Disconnecting. Goodbye!"));
             }));
 
-        // Thread for sending text messages from storage buffer to all clients
-        messagesBroadcasterThread = new Thread(() -> {
-            log.info("Message broadcaster thread started");
+        // Run all registered broadcasters
+        broadcasterThreads.values().forEach(Thread::start);
+    }
 
-            BlockingQueue<Message> queue = this.messageStorage.pendingMessagesQueue();
+    /**
+     * Inner class for broadcasting messages from storage.pendingQueue
+     */
+    private class PendingMessagesBroadcaster implements Broadcaster {
+        private ChatService service;
+
+        @Override
+        public void subscribe(ChatService service) {
+            this.service = service;
+        }
+
+        @Override
+        public void run() {
+            log.info("PendingMessagesBroadcaster started");
+
+            BlockingQueue<Message> queue = this.service.storage().pendingMessagesQueue();
             while (!Thread.currentThread().isInterrupted()) {
-
                 try {
                     Message message = queue.take();
                     if (message != null) {
-                        innerBroadcast(message);
+                        // We need inner class for this innerBroadcast call
+                        SimpleChatService.this.innerBroadcast(message);
                     }
                 } catch (Exception e) {
                     log.error("Error in broadcaster thread", e);
                 }
             }
-            log.info("Message broadcaster thread stopped");
-        });
-        messagesBroadcasterThread.start();
-
-        // Run all registered broadcasters
-        broadcasterThreads.values().forEach(Thread::start);
+            log.info("PendingMessagesBroadcaster stopped");
+        }
     }
+
 
     @Override
     public Message broadcast(Message message) {

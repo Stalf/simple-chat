@@ -1,4 +1,4 @@
-package ru.kss.chat.server;
+package ru.kss.chat.server.broadcasters;
 
 import lombok.extern.slf4j.Slf4j;
 import ru.kss.chat.Broadcaster;
