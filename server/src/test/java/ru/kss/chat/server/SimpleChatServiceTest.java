@@ -137,43 +137,47 @@ public class SimpleChatServiceTest {
 
     @Test
     public void registerUnregisterBroadcaster() {
+        assertEquals(1, chatService.getBroadcasterThreads().size());
         Broadcaster broadcaster = mock(Broadcaster.class);
         Broadcaster broadcaster2 = mock(Broadcaster.class);
         chatService.register(broadcaster);
-        assertEquals(1, chatService.getBroadcasterThreads().size());
-
-        chatService.register(broadcaster2);
         assertEquals(2, chatService.getBroadcasterThreads().size());
 
+        chatService.register(broadcaster2);
+        assertEquals(3, chatService.getBroadcasterThreads().size());
+
         chatService.unRegister(broadcaster2);
-        assertEquals(1, chatService.getBroadcasterThreads().size());
+        assertEquals(2, chatService.getBroadcasterThreads().size());
         chatService.unRegister(broadcaster);
-        assertEquals(0, chatService.getBroadcasterThreads().size());
+        assertEquals(1, chatService.getBroadcasterThreads().size());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void registerDuplicateBroadcasterFail() {
+        // One broadcaster is autoregistered by the SimpleChatService
+        assertEquals(1, chatService.getBroadcasterThreads().size());
         Broadcaster broadcaster = mock(Broadcaster.class);
         Broadcaster broadcaster2 = mock(Broadcaster.class);
         chatService.register(broadcaster);
         chatService.register(broadcaster2);
-        assertEquals(2, chatService.getBroadcasterThreads().size());
+        assertEquals(3, chatService.getBroadcasterThreads().size());
 
         chatService.register(broadcaster);
     }
 
     @Test
     public void unRegisterDuplicateBroadcaster() {
+        assertEquals(1, chatService.getBroadcasterThreads().size());
         Broadcaster broadcaster = mock(Broadcaster.class);
         Broadcaster broadcaster2 = mock(Broadcaster.class);
         chatService.register(broadcaster);
         chatService.register(broadcaster2);
-        assertEquals(2, chatService.getBroadcasterThreads().size());
+        assertEquals(3, chatService.getBroadcasterThreads().size());
 
         chatService.unRegister(broadcaster);
-        assertEquals(1, chatService.getBroadcasterThreads().size());
+        assertEquals(2, chatService.getBroadcasterThreads().size());
         chatService.unRegister(broadcaster);
-        assertEquals(1, chatService.getBroadcasterThreads().size());
+        assertEquals(2, chatService.getBroadcasterThreads().size());
     }
 
 }
