@@ -4,6 +4,7 @@ import ru.kss.chat.Utils;
 import ru.kss.chat.client.communicators.ChatClientCommunicator;
 import ru.kss.chat.client.communicators.ClientCommunicator;
 import ru.kss.chat.client.sockets.ClientHandler;
+import ru.kss.chat.commands.ChatCommand;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -17,9 +18,10 @@ import static java.lang.Thread.sleep;
  */
 public class BotMain {
 
-    public static final int PERIOD = 10_000;
+    public static final int PERIOD = 2_000;
 
     public static void main(String... args) {
+        ChatCommand.registerAllCommands();
 
         Socket socket = null;
         try {
@@ -30,9 +32,10 @@ public class BotMain {
             Thread clientHandlerThread = new Thread(handler);
             clientHandlerThread.start();
 
-            while (handler.getCurrentCommunicator() != null && !handler.getCurrentCommunicator().isAwaitingUserInput()) {
+            do {
                 sleep(1000);
             }
+            while (handler.getCurrentCommunicator() != null && !handler.getCurrentCommunicator().isAwaitingUserInput());
 
             //random username
             handler.processUserInput(UUID.randomUUID().toString());
@@ -49,7 +52,7 @@ public class BotMain {
             int i = 0;
             while (true) {
                 sleep(PERIOD);
-                handler.processUserInput("text message " + i++);
+                handler.processUserInput("text message " + i++ + "*****" + UUID.randomUUID().toString());
             }
 
         } catch (IOException | InterruptedException e) {

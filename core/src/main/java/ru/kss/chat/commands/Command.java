@@ -54,6 +54,15 @@ public enum Command {
      */
     PING,
     /**
+     * Server uptime request
+     */
+    SERVER_UPTIME,
+    /**
+     * Request server to stop some clients
+     */
+    STOP_BOTS,
+
+    /**
      * Do-nothing command
      */
     EMPTY

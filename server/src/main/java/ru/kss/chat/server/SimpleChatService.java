@@ -10,6 +10,8 @@ import ru.kss.chat.commands.Command;
 import ru.kss.chat.messages.Message;
 import ru.kss.chat.server.messages.ServerCommandMessage;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
@@ -23,6 +25,7 @@ public class SimpleChatService implements ChatService {
     private final Storage messageStorage;
     private final ConnectionPool connectionPool;
     private final Integer portNumber;
+    private final Instant start;
 
     /**
      * Map for holding {@code Thread} instances running Broadcasters
@@ -40,6 +43,7 @@ public class SimpleChatService implements ChatService {
         this.messageStorage = messageStorage;
         this.connectionPool = connectionPool;
         this.portNumber = portNumber;
+        this.start = Instant.now();
 
         register(new PendingMessagesBroadcaster());
     }
@@ -178,5 +182,20 @@ public class SimpleChatService implements ChatService {
     @Override
     public int getMessageCount() {
         return messageStorage.getMessageCount();
+    }
+
+    @Override
+    public void stopBots(int count) {
+        users.values().stream()
+            // bots have guids as names, so their usernames are 36 chars long
+            .filter(h -> h.getUsername().length() == 36)
+            .sorted((Handler h1, Handler h2) -> (int) (h2.uptime() - h1.uptime()))
+            .limit(count)
+            .forEach(connectionPool::unRegister);
+    }
+
+    @Override
+    public long uptime() {
+        return start.until(Instant.now(), ChronoUnit.SECONDS);
     }
 }

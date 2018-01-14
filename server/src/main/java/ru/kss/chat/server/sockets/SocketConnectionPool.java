@@ -63,10 +63,13 @@ public class SocketConnectionPool implements ConnectionPool {
 
     @Override
     public void unRegister(Handler handler) {
-       chatService.unRegister(handler);
+        chatService.unRegister(handler);
 
         // remove handler thread from pool
-        if (handlerThreads.remove(handler) == null) {
+        Thread thread = handlerThreads.remove(handler);
+        if (thread != null) {
+            thread.interrupt();
+        } else {
             log.error("Error removing thread for handler {}", handler);
         }
     }

@@ -68,5 +68,14 @@ public interface ChatService {
      */
     void unRegister(Broadcaster broadcaster);
 
+    /**
+     * Tears down connection with @{code count} bot clients with largest uptime
+     * @param count number of bots to stop
+     */
+    void stopBots(int count);
 
+    /**
+     * @return server uptime in seconds
+     */
+    long uptime();
 }

@@ -8,6 +8,8 @@ import ru.kss.chat.Handler;
 import ru.kss.chat.Storage;
 import ru.kss.chat.messages.EmptyMessage;
 
+import java.util.UUID;
+
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
@@ -16,6 +18,9 @@ public class SimpleChatServiceTest {
     private SimpleChatService chatService;
     private Handler user1;
     private Handler user2;
+    private Handler bot1;
+    private Handler bot2;
+    private Handler bot3;
     private Handler userNullName;
     private Handler userEmptyName;
     private Storage storage;
@@ -31,6 +36,17 @@ public class SimpleChatServiceTest {
         when(user1.getUsername()).thenReturn("user1");
         user2 = mock(Handler.class);
         when(user2.getUsername()).thenReturn("user2");
+
+        bot1 = mock(Handler.class);
+        when(bot1.getUsername()).thenReturn(UUID.randomUUID().toString());
+        when(bot1.uptime()).thenReturn(5L);
+        bot2 = mock(Handler.class);
+        when(bot2.getUsername()).thenReturn(UUID.randomUUID().toString());
+        when(bot2.uptime()).thenReturn(1L);
+        bot3 = mock(Handler.class);
+        when(bot3.getUsername()).thenReturn(UUID.randomUUID().toString());
+        when(bot3.uptime()).thenReturn(4L);
+
         userNullName = mock(Handler.class);
         when(userNullName.getUsername()).thenReturn(null);
         userEmptyName = mock(Handler.class);
@@ -178,6 +194,31 @@ public class SimpleChatServiceTest {
         assertEquals(2, chatService.getBroadcasterThreads().size());
         chatService.unRegister(broadcaster);
         assertEquals(2, chatService.getBroadcasterThreads().size());
+    }
+
+    @Test
+    public void stopBots() {
+
+        doAnswer(invocation -> {
+            chatService.unRegister((Handler) invocation.getArgument(0));
+            return null;
+        }).when(connectionPool).unRegister(any());
+
+        chatService.register(user1);
+        chatService.register(user2);
+
+        chatService.register(bot1);
+        chatService.register(bot2);
+        chatService.register(bot3);
+
+        assertEquals(5, chatService.getUserCount());
+
+        chatService.stopBots(2);
+
+        assertEquals(3, chatService.getUserCount());
+        assertFalse(chatService.getUsers().containsValue(bot1));
+        assertTrue(chatService.getUsers().containsValue(bot2));
+        assertFalse(chatService.getUsers().containsValue(bot3));
     }
 
 }

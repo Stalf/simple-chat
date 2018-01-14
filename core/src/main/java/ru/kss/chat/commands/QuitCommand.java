@@ -6,6 +6,9 @@ import ru.kss.chat.Handler;
  * Command is issued by the client to leave the chat
  */
 public class QuitCommand extends ChatCommand {
+
+    public static final String DISCONNECTING_FROM_SERVER_GOODBYE = "Disconnecting from server. Goodbye!";
+
     @Override
     public Command getRequest() {
         return Command.QUIT;
@@ -24,7 +27,8 @@ public class QuitCommand extends ChatCommand {
     @Override
     public String serverExecute(Handler handler, String input) {
         handler.broadcast("*** Leaves chat ***");
-        return "Disconnecting from server. Goodbye!";
+        Thread.currentThread().interrupt();
+        return DISCONNECTING_FROM_SERVER_GOODBYE;
     }
 
     @Override

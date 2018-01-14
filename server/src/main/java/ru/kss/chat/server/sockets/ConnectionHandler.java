@@ -6,10 +6,12 @@ import ru.kss.chat.AbstractHandler;
 import ru.kss.chat.ChatService;
 import ru.kss.chat.Handler;
 import ru.kss.chat.commands.Command;
+import ru.kss.chat.commands.QuitCommand;
 import ru.kss.chat.communicators.Communicator;
 import ru.kss.chat.messages.Message;
 import ru.kss.chat.messages.TextMessage;
 import ru.kss.chat.server.communicators.WelcomeServerCommunicator;
+import ru.kss.chat.server.messages.ServerCommandMessage;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -94,10 +96,10 @@ public class ConnectionHandler extends AbstractHandler implements Handler {
                 send(communicator.message());
                 inputString = in.readLine();
                 communicator = communicator.process(parse(inputString));
-            } while (communicator.message().getCommand() != Command.QUIT );
+            } while (!Thread.currentThread().isInterrupted());
 
             // Send QUIT command to client
-            send(communicator.message());
+            send(new ServerCommandMessage(Command.QUIT, QuitCommand.DISCONNECTING_FROM_SERVER_GOODBYE));
 
             log.debug("Closing client connection at {}", socket.getInetAddress());
         } catch (IOException e) {

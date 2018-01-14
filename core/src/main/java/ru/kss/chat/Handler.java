@@ -54,4 +54,9 @@ public interface Handler extends Runnable{
      */
     ChatService chatService();
 
+    /**
+     * @return uptime of this handler in seconds
+     */
+    long uptime();
+
 }

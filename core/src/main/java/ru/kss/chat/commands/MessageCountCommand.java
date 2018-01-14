@@ -2,7 +2,12 @@ package ru.kss.chat.commands;
 
 import ru.kss.chat.Handler;
 
+import java.text.DecimalFormat;
+
 public class MessageCountCommand extends ChatCommand {
+
+    public static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.##");
+
     @Override
     public Command getRequest() {
         return Command.MESSAGE_COUNT;
@@ -20,7 +25,10 @@ public class MessageCountCommand extends ChatCommand {
 
     @Override
     public String serverExecute(Handler handler, String input) {
-        return "Current message count: " + handler.chatService().getMessageCount();
+        return String.format("Current message count: %d; Pending message queue size: %d; load: %s/sec",
+            handler.chatService().getMessageCount(),
+            handler.chatService().storage().pendingMessagesQueue().size(),
+            DECIMAL_FORMAT.format(handler.chatService().getMessageCount() / (float) handler.chatService().uptime()));
     }
 
     @Override

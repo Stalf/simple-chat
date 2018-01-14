@@ -22,6 +22,8 @@ public abstract class ChatCommand {
     public static void registerAllCommands() {
         registerCommand(new UserCountCommand());
         registerCommand(new MessageCountCommand());
+        registerCommand(new StopBotsCommand());
+        registerCommand(new ServerUptimeCommand());
         registerCommand(new HelpCommand());
         registerCommand(new QuitCommand());
         registerCommand(new TextCommand());

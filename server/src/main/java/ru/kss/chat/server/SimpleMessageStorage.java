@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 @Slf4j
 public class SimpleMessageStorage implements Storage {
 
-    private static final int PENDING_MAX_CAPACITY = 1000;
+    private static final int PENDING_MAX_CAPACITY = 1_000;
     private final ConcurrentLinkedDeque<Message> queue = new ConcurrentLinkedDeque<>();
     private final BlockingQueue<Message> pendingMessagesQueue = Queues.newLinkedBlockingQueue(PENDING_MAX_CAPACITY);
 
