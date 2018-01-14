@@ -9,22 +9,22 @@ import static org.junit.Assert.assertNotEquals;
 
 public class UtilsTest {
 
-    public static final String INPUT = "TXT" + Utils.SIMPLE_DELIMITER
+    private static final String INPUT = "TXT" + Utils.SIMPLE_DELIMITER
         + "text" + Utils.SIMPLE_DELIMITER
         + "author" + Utils.SIMPLE_DELIMITER
         + "2010-01-14T20:31:40.854+05:00";
 
-    public static final String INPUT_TIME_CORRUPTED = "TXT" + Utils.SIMPLE_DELIMITER
+    private static final String INPUT_TIME_CORRUPTED = "TXT" + Utils.SIMPLE_DELIMITER
         + "text" + Utils.SIMPLE_DELIMITER
         + "author" + Utils.SIMPLE_DELIMITER
         + "2010-01-14Z20:31:40.854+05:00";
 
-    public static final String INPUT_COMMAND_CORRUPTED = "testtest" + Utils.SIMPLE_DELIMITER
+    private static final String INPUT_COMMAND_CORRUPTED = "testtest" + Utils.SIMPLE_DELIMITER
         + "text" + Utils.SIMPLE_DELIMITER
         + "author" + Utils.SIMPLE_DELIMITER
         + "2010-01-14Z20:31:40.854+05:00";
 
-    public static final String INPUT_NO_TEXT_CORRUPTED = "TXT" + Utils.SIMPLE_DELIMITER
+    private static final String INPUT_NO_TEXT_CORRUPTED = "TXT" + Utils.SIMPLE_DELIMITER
 //        + "text" + Utils.SIMPLE_DELIMITER
         + "author" + Utils.SIMPLE_DELIMITER
         + "2010-01-14Z20:31:40.854+05:00";
