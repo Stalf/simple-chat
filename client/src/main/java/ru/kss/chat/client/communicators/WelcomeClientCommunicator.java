@@ -1,11 +1,11 @@
 package ru.kss.chat.client.communicators;
 
-import ru.kss.chat.Command;
+import ru.kss.chat.commands.Command;
 import ru.kss.chat.Handler;
 import ru.kss.chat.communicators.Communicator;
 import ru.kss.chat.messages.Message;
 
-import static ru.kss.chat.client.ConsolePrinter.*;
+import static ru.kss.chat.ConsolePrinter.*;
 
 /**
  * Client-side communicator implementing user authentication and username selection logic

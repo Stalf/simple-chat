@@ -2,12 +2,14 @@ package ru.kss.chat.client.communicators;
 
 import ru.kss.chat.*;
 import ru.kss.chat.client.messages.ClientCommandMessage;
+import ru.kss.chat.commands.ChatCommand;
+import ru.kss.chat.commands.Command;
 import ru.kss.chat.communicators.AbstractCommunicator;
 import ru.kss.chat.communicators.Communicator;
 import ru.kss.chat.messages.Message;
 
-import static ru.kss.chat.client.ConsolePrinter.printError;
-import static ru.kss.chat.client.ConsolePrinter.println;
+import static ru.kss.chat.ConsolePrinter.printError;
+import static ru.kss.chat.ConsolePrinter.println;
 
 /**
  * Abstract class implementing common client-side communicator logic (primarily error handling)
@@ -48,6 +50,23 @@ public abstract class ClientCommunicator extends AbstractCommunicator {
         return this;
     }
 
+    /**
+     * Sets message for current communicator
+     *
+     * @param chatCommand {@code ChatCommand} instance to be executed
+     * @param message text message received with command
+     * @return current communicator
+     */
+    protected Communicator update(ChatCommand chatCommand, String message) {
+        String execute = chatCommand.clientExecute(message);
+        if (chatCommand.getResponse() != Command.EMPTY) {
+            return this.update(chatCommand.getRequest(), execute);
+        } else {
+            return this.update();
+        }
+    }
+
+
     @Override
     protected Communicator update(Message message) {
         this.setMessage(message);
@@ -61,8 +80,6 @@ public abstract class ClientCommunicator extends AbstractCommunicator {
     public boolean isAwaitingUserInput() {
         return awaitingUserInput;
     }
-
-
 
 
 }

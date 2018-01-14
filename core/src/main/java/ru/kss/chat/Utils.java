@@ -2,6 +2,7 @@ package ru.kss.chat;
 
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
+import ru.kss.chat.commands.Command;
 import ru.kss.chat.messages.EmptyMessage;
 import ru.kss.chat.messages.Message;
 import ru.kss.chat.messages.ParsedMessage;

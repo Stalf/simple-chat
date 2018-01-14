@@ -1,5 +1,6 @@
 package ru.kss.chat.client;
 
+import ru.kss.chat.commands.ChatCommand;
 import ru.kss.chat.Utils;
 import ru.kss.chat.client.sockets.ClientHandler;
 
@@ -7,7 +8,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.Scanner;
 
-import static ru.kss.chat.client.ConsolePrinter.*;
+import static ru.kss.chat.ConsolePrinter.*;
 
 /**
  * Simple Console Chat Client main class
@@ -15,6 +16,8 @@ import static ru.kss.chat.client.ConsolePrinter.*;
 public class ClientMain {
 
     public static void main(String... args) throws IOException {
+        ChatCommand.registerAllCommands();
+
         printGreeting();
 
         int portNumber = Utils.DEFAULT_PORT_NUMBER;

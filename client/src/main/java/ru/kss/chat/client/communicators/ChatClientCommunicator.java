@@ -1,12 +1,12 @@
 package ru.kss.chat.client.communicators;
 
-import ru.kss.chat.Command;
-import ru.kss.chat.client.ChatCommand;
-import ru.kss.chat.communicators.Communicator;
+import ru.kss.chat.commands.ChatCommand;
+import ru.kss.chat.commands.Command;
 import ru.kss.chat.Handler;
+import ru.kss.chat.communicators.Communicator;
 import ru.kss.chat.messages.Message;
 
-import static ru.kss.chat.client.ConsolePrinter.*;
+import static ru.kss.chat.ConsolePrinter.printMessage;
 
 /**
  * Communicator implementing main chat behavior for client side
@@ -35,31 +35,13 @@ public class ChatClientCommunicator extends ClientCommunicator {
                 logError(message);
                 return this.update();
             }
-            case FIN: {
+            case QUIT: {
                 printMessage(message);
                 System.exit(0);
             }
             case INPUT: {
-                ChatCommand chatCommand = ChatCommand.parse(text);
-
-                switch (chatCommand) {
-                    case USER_COUNT: {
-                        return this.update(Command.USER_COUNT, "");
-                    }
-                    case MESSAGE_COUNT: {
-                        return this.update(Command.MESSAGE_COUNT, "");
-                    }
-                    case MESSAGE: {
-                        return this.update(Command.TXT, text);
-                    }
-                    case HELP: {
-                        printHelp();
-                        return this.update();
-                    }
-                    case QUIT: {
-                        return this.update(Command.FIN, "");
-                    }
-                }
+                // User input commands
+                return this.update(ChatCommand.input(text), text);
             }
             default: {
                 return this.error(message);

@@ -1,6 +1,6 @@
 package ru.kss.chat.messages;
 
-import ru.kss.chat.Command;
+import ru.kss.chat.commands.Command;
 
 /**
  * Simple Chat text message

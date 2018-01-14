@@ -1,8 +1,8 @@
-package ru.kss.chat.client;
+package ru.kss.chat;
 
+import ru.kss.chat.commands.ChatCommand;
+import ru.kss.chat.commands.Command;
 import ru.kss.chat.messages.Message;
-
-import java.util.Arrays;
 
 import static ru.kss.chat.Utils.buildMessage;
 
@@ -67,10 +67,14 @@ public class ConsolePrinter {
         println("Then input your message or special command and hit Enter again.");
         println("List of chat commands:");
         printlnHR();
-        Arrays.stream(ChatCommand.values()).forEach(command -> {
-            printIndented(command.getInput() == null ? "<any other>" : command.getInput());
+        ChatCommand.registry.values().stream()
+            .filter(command -> command.getRequest() != Command.TXT)
+            .forEach(command -> {
+            printIndented("/" + command.getRequest().name().toLowerCase());
             println(command.getInstructions());
         });
+        printIndented( "<any other>");
+        println(ChatCommand.registry.get(Command.TXT).getInstructions());
     }
 
     public static void printError(Exception e) {

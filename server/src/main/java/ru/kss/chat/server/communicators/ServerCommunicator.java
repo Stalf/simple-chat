@@ -2,6 +2,8 @@ package ru.kss.chat.server.communicators;
 
 import lombok.extern.slf4j.Slf4j;
 import ru.kss.chat.*;
+import ru.kss.chat.commands.ChatCommand;
+import ru.kss.chat.commands.Command;
 import ru.kss.chat.communicators.AbstractCommunicator;
 import ru.kss.chat.communicators.Communicator;
 import ru.kss.chat.messages.Message;
@@ -36,6 +38,21 @@ public abstract class ServerCommunicator extends AbstractCommunicator {
     @Override
     protected void logError(Message message) {
         log.warn("Error message received: {}", message.toString());
+    }
+
+    /**
+     * Sets message for current communicator
+     *
+     * @param chatCommand {@code ChatCommand} instance to be executed
+     * @param message text message received with command
+     * @return current communicator
+     */
+    protected Communicator update(ChatCommand chatCommand, String message) {
+        if (chatCommand.getResponse() != Command.EMPTY) {
+            return this.update(chatCommand.getResponse(), chatCommand.serverExecute(handler, message));
+        } else {
+            return this.update();
+        }
     }
 
     @Override

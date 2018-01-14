@@ -2,7 +2,7 @@ package ru.kss.chat.messages;
 
 import lombok.Getter;
 import lombok.ToString;
-import ru.kss.chat.Command;
+import ru.kss.chat.commands.Command;
 
 import java.time.ZonedDateTime;
 

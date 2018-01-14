@@ -1,5 +1,6 @@
 package ru.kss.chat;
 
+import ru.kss.chat.commands.Command;
 import ru.kss.chat.messages.Message;
 
 public abstract class AbstractHandler implements Handler {

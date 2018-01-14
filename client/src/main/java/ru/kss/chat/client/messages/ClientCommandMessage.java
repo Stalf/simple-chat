@@ -1,6 +1,6 @@
 package ru.kss.chat.client.messages;
 
-import ru.kss.chat.Command;
+import ru.kss.chat.commands.Command;
 import ru.kss.chat.messages.Message;
 
 public class ClientCommandMessage extends Message {

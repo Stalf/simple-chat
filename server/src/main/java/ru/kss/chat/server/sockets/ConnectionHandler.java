@@ -5,10 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import ru.kss.chat.AbstractHandler;
 import ru.kss.chat.ChatService;
 import ru.kss.chat.Handler;
+import ru.kss.chat.commands.Command;
 import ru.kss.chat.communicators.Communicator;
 import ru.kss.chat.messages.Message;
 import ru.kss.chat.messages.TextMessage;
-import ru.kss.chat.server.communicators.FinCommunicator;
 import ru.kss.chat.server.communicators.WelcomeServerCommunicator;
 
 import java.io.BufferedReader;
@@ -94,9 +94,9 @@ public class ConnectionHandler extends AbstractHandler implements Handler {
                 send(communicator.message());
                 inputString = in.readLine();
                 communicator = communicator.process(parse(inputString));
-            } while (!(communicator instanceof FinCommunicator));
+            } while (communicator.message().getCommand() != Command.QUIT );
 
-            // Send FIN command to client
+            // Send QUIT command to client
             send(communicator.message());
 
             log.debug("Closing client connection at {}", socket.getInetAddress());

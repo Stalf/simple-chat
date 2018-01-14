@@ -21,7 +21,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import static ru.kss.chat.Utils.composeMessage;
 import static ru.kss.chat.Utils.parseMessage;
-import static ru.kss.chat.client.ConsolePrinter.printError;
+import static ru.kss.chat.ConsolePrinter.printError;
 
 /**
  * Server connection and communication handler thread

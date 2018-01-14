@@ -1,4 +1,4 @@
-package ru.kss.chat;
+package ru.kss.chat.commands;
 
 /**
  * Client-server interaction commands
@@ -30,6 +30,10 @@ public enum Command {
      */
     TXT,
     /**
+     * Show info about available commands
+     */
+    HELP,
+    /**
      * Request user count
      */
     USER_COUNT,
@@ -40,7 +44,7 @@ public enum Command {
     /**
      * Goodbye message
      */
-    FIN,
+    QUIT,
     /**
      * User input command
      */

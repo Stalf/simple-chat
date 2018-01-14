@@ -4,7 +4,8 @@ import com.google.common.base.Strings;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-import ru.kss.chat.*;
+import ru.kss.chat.Handler;
+import ru.kss.chat.commands.Command;
 import ru.kss.chat.messages.EmptyMessage;
 import ru.kss.chat.messages.Message;
 

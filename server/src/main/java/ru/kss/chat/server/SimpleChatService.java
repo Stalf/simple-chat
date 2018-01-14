@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import ru.kss.chat.*;
+import ru.kss.chat.commands.Command;
 import ru.kss.chat.messages.Message;
 import ru.kss.chat.server.messages.ServerCommandMessage;
 
@@ -56,7 +57,7 @@ public class SimpleChatService implements ChatService {
         // On Server shutdown - send Bye to all registered clients
         Runtime.getRuntime().addShutdownHook(
             new Thread(() -> {
-                innerBroadcast(new ServerCommandMessage(Command.FIN, "Server is stopping... Disconnecting. Goodbye!"));
+                innerBroadcast(new ServerCommandMessage(Command.QUIT, "Server is stopping... Disconnecting. Goodbye!"));
             }));
 
         // Run all registered broadcasters
