@@ -78,7 +78,7 @@ public class SocketConnectionPool implements ConnectionPool {
         messagesBroadcaster = new Thread(() -> {
             log.info("Message broadcaster thread started");
 
-            BlockingQueue<Message> queue = storage().pendingMessageQueue();
+            BlockingQueue<Message> queue = storage().pendingMessagesQueue();
             while (!Thread.currentThread().isInterrupted()) {
 
                 try {
@@ -112,8 +112,6 @@ public class SocketConnectionPool implements ConnectionPool {
             }
         });
     }
-
-    ;
 
     @Override
     public Broadcaster register(Broadcaster broadcaster) {

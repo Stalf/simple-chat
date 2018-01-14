@@ -27,7 +27,7 @@ public interface Storage {
     /**
      * Queue holding messages pending for broadcast
      */
-    BlockingQueue<Message> pendingMessageQueue();
+    BlockingQueue<Message> pendingMessagesQueue();
 
     /**
      * @return total messages in server storage

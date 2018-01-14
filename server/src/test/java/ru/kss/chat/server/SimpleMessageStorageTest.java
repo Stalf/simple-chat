@@ -13,6 +13,7 @@ import java.util.concurrent.BlockingQueue;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 @Slf4j
 public class SimpleMessageStorageTest {
@@ -62,7 +63,7 @@ public class SimpleMessageStorageTest {
     @Test
     public void pendingMessageQueue() {
 
-        BlockingQueue<Message> blockingQueue = storage.pendingMessageQueue();
+        BlockingQueue<Message> blockingQueue = storage.pendingMessagesQueue();
         assertThat(blockingQueue, IsCollectionWithSize.hasSize(20));
 
         Message poll = null;
@@ -81,6 +82,21 @@ public class SimpleMessageStorageTest {
         storage.save(new EmptyMessage());
         assertEquals(21, storage.getMessageCount());
 
+    }
+
+    @Test
+    public void pendingMessageQueueOvercapacity() {
+        for (int i = 0; i < 980; i++) {
+            storage.save(new EmptyMessage());
+        }
+        assertEquals(1000, storage.getMessageCount());
+        assertEquals(1000, storage.pendingMessagesQueue().size());
+
+        Message message = storage.save(new EmptyMessage());
+        assertNull(message);
+
+        assertEquals(1001, storage.getMessageCount());
+        assertEquals(1000, storage.pendingMessagesQueue().size());
     }
 }
 
