@@ -107,4 +107,11 @@ public class ConnectionHandler extends AbstractHandler implements Handler {
             pool.unRegisterClient(this);
         }
     }
+
+    @Override
+    public String toString() {
+        return "ConnectionHandler{" +
+            "username='" + this.getUsername() + '\'' +
+            '}';
+    }
 }

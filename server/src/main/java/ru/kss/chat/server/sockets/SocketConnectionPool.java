@@ -161,6 +161,11 @@ public class SocketConnectionPool implements ConnectionPool {
                 log.warn("Error on client {} unregister. Handlers doesn't match: {} and {}", username, handler, connections.get(username));
             }
         }
+
+        // remove handler thread from pool
+        if (handlerThreads.remove(handler) == null) {
+            log.error("Error removing thread for handler {}", handler);
+        }
     }
 
     public boolean checkUsernameExists(String username) {
