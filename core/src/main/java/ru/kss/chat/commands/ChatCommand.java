@@ -1,5 +1,6 @@
 package ru.kss.chat.commands;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import ru.kss.chat.Handler;
 
@@ -44,15 +45,15 @@ public abstract class ChatCommand {
      * @return parse user input and find the appropriate ChatCommand instance. If none is found - returns {@code Command.TXT} as default
      */
     public static ChatCommand input(String input) {
-        ChatCommand result;
-        if (input.startsWith("/")) {
+        ChatCommand result = registry.get(Command.TXT);
+
+        if (!Strings.isNullOrEmpty(input) && input.startsWith("/")) {
             input = input.substring(1).toUpperCase().trim();
             final String finalInput = input;
             Command inputCommand = Arrays.stream(Command.values()).filter(command -> finalInput.equals(command.name())).findFirst().orElse(Command.TXT);
             result = registry.get(inputCommand);
-        } else {
-            result = registry.get(Command.TXT);
         }
+
         return result;
     }
 
@@ -68,18 +69,20 @@ public abstract class ChatCommand {
 
     /**
      * Method is executed on client side when the command is issued by the user
+     *
      * @param input user input string
      * @return string data to be sent to server
      */
-    public abstract String clientExecute(String input) ;
+    public abstract String clientExecute(String input);
 
     /**
      * This method will be executed on server side after the command is received from client
+     *
      * @param handler user connection handler object
-     * @param input string data received from the client
+     * @param input   string data received from the client
      * @return string data to be sent back to client
      */
-    public abstract String serverExecute(Handler handler, String input) ;
+    public abstract String serverExecute(Handler handler, String input);
 
     /**
      * @return returns instructions about using this command to be printed to user
